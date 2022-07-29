@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Inheritate</title>
+</head>
+<body>
+    <script>
+        class Person {
+            constructor(name, age){
+                this.name = name;
+                this.age = age;
+            }
+            sayHello(){
+                console.log("says hello" + abc)
+            }
+           
+        }
+
+        class Student extends Person{
+            constructor(name, age, studentID){
+                super(name, age);
+                this.studentID = studentID;
+            }
+            sayHello(){
+                console.log(this.name + " hellos " + this.age)
+            }
+            static say(){
+                console.log("Says");
+            }
+        }
+
+        let nam = new Student("Nam", 16);
+        nam.sayHello();
+        Student.say();
+        
+    </script>
+</body>
+</html>
