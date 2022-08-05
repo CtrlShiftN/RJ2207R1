@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .error-block {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="add-method">
+            <p>1. Thêm một loài động vật mới vào danh sách</p>
+            <input type="text" placeholder="Nhập tên loài động vật cần thêm" onchange="promtAnimal(this)">
+            <button class="btn btn-primary" onclick="add()">Add</button>
+            <br>
+            <div class="error-block" id="add-error"></div>
+        </div>
+        <div class="check-exist-method">
+            <p>2. Kiểm tra xem loài động vật đã có trong danh sách</p>
+            <input type="text" placeholder="Nhập tên loài động vật cần kiểm tra" onchange="promtAnimal(this)">
+            <button class="btn btn-primary" onclick="checkExist()">Check</button>
+            <br>
+            <div class="message-block" id="exist-message"></div>
+        </div>
+
+    </div>
+
+    <script>
+        let animalName;
+        let animals = ["monkey", "cat", "tiger", "elephant", "sheep"];
+        let animalManager = new Set(animals);
+        let addError = document.getElementById('add-error');
+        let existMessage = document.getElementById('exist-message');
+
+        // modify animal name for any input
+        function promtAnimal(obj) {
+            animalName = obj.value;
+        }
+
+        // add animal
+        function add() {
+            addAnimal(animalName);
+            console.log(animalManager);
+        }
+
+        // check existence
+        function checkExist() {
+            if (isExist(animalName)) {
+                existMessage.innerText = "Animal already existed";
+            } else {
+                existMessage.innerText = "Animal not found";
+            }
+        }
+
+        // check animal existence
+        function isExist(animalName) {
+            return animalManager.has(animalName);
+        }
+
+        // add animal to the manager
+        function addAnimal(animalName) {
+            if (!isExist(animalName)) {
+                animalManager.add(animalName);
+                addError.innerText = "";
+            } else {
+                addError.innerText = "Animal already existed";
+            }
+        }
+
+        // delete animal from the manager
+        function deleteAnimal(animalName) {
+            if (!isExist(animalName)) {
+                console.log('Animal not found');
+            } else {
+                animalManager.delete(animalName);
+            }
+        }
+
+        // print all animals
+        function printAllAnimal() {
+            let animalArr = [...animalManager];
+            for (const animal of animalArr) {
+                console.log(animal);
+            }
+        }
+    </script>
+</body>
+
+</html>
