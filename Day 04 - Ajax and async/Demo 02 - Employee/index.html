@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee</title>
+</head>
+
+<body>
+    <script>
+        class Employee {
+            constructor(code, lastName, firstName, salary) {
+                this.code = code;
+                this.lastName = lastName;
+                this.firstName = firstName;
+                this.salary = salary;
+            }
+            getFullname() { return this.firstName + ' ' + this.lastName; }
+            getSalary() { return this.salary; }
+            getAnualSalary() { return this.salary * 12; }
+            raiseSalary(percent) { this.salary += this.salary * percent / 100; }
+        }
+        let employee = new Employee('NV123', 'Nam', 'Nguyen Van', 2000);
+        console.log(employee.getFullname());
+        console.log(employee.getSalary());
+        console.log(employee.getAnualSalary());
+        employee.raiseSalary(10);
+        console.log(employee.getSalary());
+        console.log('----------------------------------');
+
+        class ParttimeEmployee extends Employee {
+            constructor(code, lastName, firstName, hourlyWage) {
+                super(code, lastName, firstName);
+                this.hourlyWage = hourlyWage;
+                this.attendence = []; // []
+            }
+            checkAttendance(month, noOfHours) {
+                if (month > 0 && month < 13) {
+                    this.attendence[month] = parseInt(noOfHours);
+                } else {
+                    this.attendence[month] = 0;
+                }
+            }
+            getSalary(month = ((new Date()).getMonth() + 1)) {
+                let noOfHours = this.attendence[month];
+                return noOfHours > 0 ? (noOfHours * this.hourlyWage) : 0;
+            }
+            getAnualSalary() {
+                let sum = 0;
+                this.attendence.map(month => sum += month);
+                return sum * this.hourlyWage;
+            }
+            raiseSalary(percent) {
+                this.hourlyWage += this.hourlyWage * percent / 100;
+            }
+        }
+        let peny = new ParttimeEmployee('NV124', 'Nam', 'Nguyen Van', 20);
+        // peny.checkAttendance(1, 35);
+        // peny.checkAttendance(2, 33);
+        peny.checkAttendance(3, 35);
+        // peny.checkAttendance(4, 39);
+        // peny.checkAttendance(5, 40);
+        // peny.checkAttendance(6, 42);
+        // peny.checkAttendance(7, 40);
+        peny.checkAttendance(8, 45);
+        // peny.checkAttendance(9, 40);
+        // peny.checkAttendance(10, 35);
+        // peny.checkAttendance(11, 40);
+        // peny.checkAttendance(12, 32);
+        console.log(peny.attendence);
+        console.log(peny.getSalary());
+        console.log(peny.getAnualSalary());
+        peny.raiseSalary(50)
+        console.log(peny.getSalary());
+        console.log(peny.getAnualSalary());
+
+    </script>
+</body>
+
+</html>
