@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gif search</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        .bg-dark {
+            background-color: azure;
+        }
+
+        .bg-red {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1 class="text-white">GIPHY PARTY</h1>
+            <input type="text" onkeyup="inputValue(this)" placeholder="Enter a keyword">
+            <button class="bg-dark" onclick="search()">Search Giphy!</button>
+            <button class="bg-red" onclick="remove()">Remove images</button>
+        </div>
+        <br />
+        <div id="result">
+
+        </div>
+    </div>
+    <script>
+        let result = document.getElementById('result');
+        let searchingKeyword;
+        let imageArr = [];
+        let url = 'https://api.giphy.com/v1/gifs/search';
+
+        function inputValue(obj) {
+            // console.log(obj);
+            searchingKeyword = obj.value;
+            // console.log(searchingKeyword);
+        }
+
+        function search() {
+            requestData(searchingKeyword);
+            // displayData();
+        }
+
+        function remove() {
+            imageArr = null;
+            displayData();
+        }
+
+        function requestData(searchingWord) {
+            axios.get(url, {
+                params: {
+                    q: searchingWord,
+                    api_key: 'OaI8Scqh6gxKwYuB0TXRiZxeyTICIFcX'
+                }
+            })
+                .then((result) => {
+                    // console.log(result);
+                    imageArr.push(result.data.data[0]['images']['preview_gif'].url);
+                })
+                .then(() => displayData())
+                .catch(error => {
+                    console.error(error)
+                })
+        }
+
+        function displayData() {
+            let html = '';
+            imageArr.map(image => {
+                html += '<img src="' + image + '" width="300" height="300">';
+            });
+            result.innerHTML = html;
+        }
+    </script>
+</body>
+
+</html>

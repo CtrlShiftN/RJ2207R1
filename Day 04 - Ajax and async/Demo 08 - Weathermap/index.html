@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gif search</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <input pattern="[a-zA-Z ]" id="searchBox" placeholder="Please enter a city name">
+    <button onclick="requestData()">Search</button>
+    <p id="demo"></p>
+    <script>
+        let searchBox = document.getElementById('searchBox');
+        let demo = document.getElementById('demo');
+        const API_KEY = 'ee6de521fda3d6518c1c40e36c8ccb7a';
+
+        function requestData() {
+            if (searchBox.value.length < 1) {
+                searchBox.focus();
+            } else {
+                let url = 'https://api.openweathermap.org/data/2.5/weather';
+                url += '?q=' + searchBox.value + '&appid=' + API_KEY;
+                let result = axios.get(url);
+                result.then(function (response) {
+                    console.log(response.data);
+                    demo.innerHTML = "Nhiệt độ là: " + (response.data.main.temp - 273.15) + " C <br>" +
+                        "Thời tiết: " + response.data.weather[0].description;
+                });
+                result.catch(function (err) {
+                    console.log('err ', err);
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>
