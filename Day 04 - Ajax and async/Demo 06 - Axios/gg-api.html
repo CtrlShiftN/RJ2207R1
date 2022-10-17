@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Axios Demo</title>
+</head>
+
+<body class="bg-dark">
+    <div class="container pt-5">
+        <div class="text-center pb-2">
+            <h1 class="text-uppercase text-white">Giphy Party</h1>
+            <input type="text" placeholder="Enter a search term" id="searching-keyword">
+            <input type="number" min=1 max=50 placeholder="Enter number of items" id="item-amount">
+            <input type="submit" class="btn btn-secondary" id="submit-button" value="Search Giphy!">
+            <input type="button" class="btn btn-danger" id="remove-button" value="Remove Images">
+        </div>
+        <div id="result">
+
+        </div>
+    </div>
+    <script>
+        let API_KEY = "b1tcE7pK1JFX0gTMxBmJEdtcZRc8xULj";
+        let imageArr = [];
+        let searchingKeyword = document.getElementById("searching-keyword");
+        let itemAmount = document.getElementById("item-amount");
+        let submitButton = document.getElementById("submit-button");
+        let removeButton = document.getElementById("remove-button");
+        let result = document.getElementById("result");
+        // let keyword = 'teeth';
+        const getImage = (keyword, amount) => {
+            axios.get('http://api.giphy.com/v1/gifs/search', {
+                params: {
+                    q: keyword,
+                    api_key: API_KEY
+                }
+            })
+                .then(res => {
+                    let resArr = res.data.data;
+                    for (let i = 0; i < amount; i++) {
+                        imageArr.push(resArr[i].images.preview_gif.url);
+                    }
+                    displayImage();
+                })
+                .catch(error => console.log(error))
+        }
+        submitButton.addEventListener('click', () => {
+            let keyword = searchingKeyword.value;
+            let amount = itemAmount.value;
+            getImage(keyword, amount);
+        });
+
+        const displayImage = () => {
+            let html = '';
+            for (let i = 0; i < imageArr.length; i++) {
+                html += '<img class="img-thumbnail" src="' + imageArr[i] + '" width="200px" height="100px" alt="">';
+            }
+            result.innerHTML = html;
+        }
+
+        removeButton.addEventListener('click', () => {
+            result.innerHTML = '';
+            imageArr = [];
+        })
+
+
+    </script>
+</body>
+
+</html>
